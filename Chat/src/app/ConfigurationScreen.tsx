@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CAT, FOX, KOALA, MONKEY, MOUSE, OCTOPUS } from './utils/utils';
-import { useTheme } from '@azure/communication-react';
-import { FocusZone, FocusZoneDirection, PrimaryButton, Spinner, Stack, Text } from '@fluentui/react';
+import { PrimaryButton, Spinner, Stack, Text } from '@fluentui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   buttonStyle,
@@ -13,7 +11,6 @@ import {
 } from './styles/ConfigurationScreen.styles';
 import {
   headerStyle,
-  labelFontStyle,
   leftPreviewContainerStackTokens,
   leftPreviewContainerStyle,
   namePreviewStyle,
@@ -25,7 +22,6 @@ import {
 
 import { Chat20Filled } from '@fluentui/react-icons';
 import { DisplayNameField } from './DisplayNameField';
-import { sendEmojiRequest } from './utils/setEmoji';
 import { getToken } from './utils/getToken';
 import { getThreadId } from './utils/getThreadId';
 import { joinThread } from './utils/joinThread';
@@ -55,8 +51,8 @@ const ERROR_TEXT_THREAD_NULL = 'Thread id is null';
 const INITIALIZE_CHAT_SPINNER_LABEL = 'Initializing chat client...';
 const JOIN_BUTTON_TEXT = 'Join chat';
 const LOADING_SPINNER_LABEL = 'Loading...';
-const NAME_DEFAULT = 'Name';
-const PROFILE_LABEL = 'Your profile';
+const NAME_DEFAULT = '';
+const PROFILE_LABEL = '';
 
 /**
  * There are four states of ConfigurationScreen.
@@ -69,6 +65,7 @@ const PROFILE_LABEL = 'Your profile';
  */
 export default (props: ConfigurationScreenProps): JSX.Element => {
   const [name, setName] = useState('');
+  const [notes, setNotes] = useState('');
   const [emptyWarning, setEmptyWarning] = useState(false);
   const [configurationScreenState, setConfigurationScreenState] = useState<number>(
     CONFIGURATIONSCREEN_SHOWING_SPINNER_LOADING
@@ -161,12 +158,22 @@ export default (props: ConfigurationScreenProps): JSX.Element => {
             setEmptyWarning={setEmptyWarning}
             validateName={validateName}
             isEmpty={emptyWarning}
+            TEXTFIELD_PLACEHOLDER='Enter your name'
+            TEXTFIELD_LABEL = 'Name'
+          />
+          <DisplayNameField
+            setName={setNotes}
+            setEmptyWarning={setEmptyWarning}
+            validateName={validateName}
+            isEmpty={emptyWarning}
+            TEXTFIELD_PLACEHOLDER='Enter your notes'
+            TEXTFIELD_LABEL='Notes'
           />
           <PrimaryButton
             disabled={disableJoinChatButton}
             className={buttonStyle}
             styles={buttonWithIconStyles}
-            text={JOIN_BUTTON_TEXT}
+            text={'Start Quiz'}
             onClick={validateName}
             onRenderIcon={() => <Chat20Filled className={chatIconStyle} />}
           />

@@ -13,15 +13,16 @@ interface DisplayNameFieldProps {
   isEmpty: boolean;
   defaultName?: string;
   validateName?(): void;
+  TEXTFIELD_PLACEHOLDER: string;
+  TEXTFIELD_LABEL: string;
 }
 
-const TEXTFIELD_LABEL = 'Name';
+
 const TEXTFIELD_ID = 'displayName';
-const TEXTFIELD_PLACEHOLDER = 'Enter your name';
 const TEXTFIELD_EMPTY_ERROR_MSG = 'Name cannot be empty';
 
 const DisplayNameFieldComponent = (props: DisplayNameFieldProps): JSX.Element => {
-  const { setName, setEmptyWarning, isEmpty, defaultName, validateName } = props;
+  const { setName, setEmptyWarning, isEmpty, defaultName, validateName, TEXTFIELD_PLACEHOLDER,TEXTFIELD_LABEL } = props;
 
   const onNameTextChange = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -38,6 +39,7 @@ const DisplayNameFieldComponent = (props: DisplayNameFieldProps): JSX.Element =>
       setEmptyWarning(false);
     }
   };
+  
 
   return (
     <TextField
