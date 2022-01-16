@@ -16,24 +16,31 @@ module.exports = {
 }
 
 function test(context, event, callback) {
-    const http = require('http');
-    const express = require('express');
-    const MessagingResponse = require('twilio').twiml.MessagingResponse;
+    'use strict'
 
-    const app = express();
+    const express = require('express')
+    const bodyParser = require('body-parser')
 
-    app.post('/sms', (req, res) => {
-        const twiml = new MessagingResponse();
+    // Create a new instance of express
+    const app = express()
 
-        twiml.message('The Robots are coming! Head for the hills!');
+    // Tell express to use the body-parser middleware and to not parse extended bodies
+    app.use(bodyParser.urlencoded({ extended: false }))
 
-        res.writeHead(200, { 'Content-Type': 'text/xml' });
-        res.end(twiml.toString());
-    });
+    // Route that receives a POST request to /sms
+    app.post('/sms', function (req, res) {
+        const body = req.body.Body
+        res.set('Content-Type', 'text/plain')
+        res.send(`You sent: ${body} to Express`)
+    })
 
-    http.createServer(app).listen(1337, () => {
-        console.log('Express server listening on port 1337');
-    });
+    // Tell our app to listen on port 3000
+    app.listen(8080, function (err) {
+        if (err) {
+            throw err
+        }
 
+        console.log('Server started on port 8080')
+    })
 };
 test()
