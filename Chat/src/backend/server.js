@@ -12,10 +12,15 @@ async function getQuiz(rawText) {
     return questions;
 }
 
-async function main() {
+async function mains() {
     const rawText = 'I am going to the mall today with my friends.';
     let quiz = await getQuiz(rawText);
-    console.log(quiz);
+    return quiz
 }
+tempVar = mains();
 
-main();
+module.exports = async function main() {
+    return tempVar
+
+
+}

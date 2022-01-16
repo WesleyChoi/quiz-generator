@@ -21,7 +21,7 @@ module.exports = {
                 curr += input[i];
             }
         }
-        let questions = {};
+        let questions = new Map();
         for (let i = 0; i < sentences.length; i++) {
             let words = sentences[i].split(' ');
             let count = 0;
