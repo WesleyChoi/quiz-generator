@@ -46,63 +46,6 @@ export const rightInputContainerStyle = mergeStyles({
   padding: '0.5rem'
 });
 
-export const avatarListContainerStackTokens: IStackTokens = {
-  childrenGap: '0.25rem'
-};
-
-export const avatarListContainerStyle = mergeStyles({
-  width: '19rem'
-});
-
-export const smallAvatarContainerStyle = (avatar: string, selectedAvatar: string, theme: Theme): string =>
-  mergeStyles({
-    width: '3rem',
-    height: '3rem',
-    border: avatar === selectedAvatar ? `0.125rem solid ${theme.palette.themePrimary}` : '',
-    backgroundColor: getBackgroundColor(avatar)?.backgroundColor,
-    borderRadius: '50%',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    outline: 'none',
-    '&:focus': {
-      border: `0.1875rem solid ${theme.palette.neutralSecondary}`,
-      borderRadius: theme.effects.roundedCorner4
-    }
-  });
-
-export const largeAvatarContainerStyle = (avatar: string): string =>
-  mergeStyles({
-    width: '8.25rem',
-    height: '8.25rem',
-    backgroundColor: getBackgroundColor(avatar)?.backgroundColor,
-    borderRadius: '50%',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center'
-  });
-
-export const smallAvatarStyle = mergeStyles({
-  height: '1.75rem',
-  width: '2rem',
-  color: '#444444',
-  fontWeight: 400,
-  fontSize: '1.5rem',
-  letterSpacing: '0',
-  lineHeight: '1.75rem',
-  textAlign: 'center'
-});
-
-export const largeAvatarStyle = mergeStyles({
-  height: '4.938rem',
-  color: '#444444',
-  fontWeight: 400,
-  fontSize: '3.75rem', // 60px
-  letterSpacing: '0',
-  lineHeight: '4.938rem',
-  textAlign: 'center'
-});
-
 export const namePreviewStyle = (isEmpty: boolean): string => {
   return mergeStyles({
     height: '1.5rem',

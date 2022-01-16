@@ -3,7 +3,6 @@
 
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import {
-  AvatarPersonaData,
   ChatAdapter,
   ChatComposite,
   createAzureCommunicationChatAdapter,
@@ -73,16 +72,6 @@ export const ChatScreen = (props: ChatScreenProps): JSX.Element => {
   }, [displayName, endpointUrl, threadId, token, userId, errorHandler, endChatHandler]);
 
   if (adapter) {
-    const onFetchAvatarPersonaData = (userId): Promise<AvatarPersonaData> =>
-      fetchEmojiForUser(userId).then(
-        (emoji) =>
-          new Promise((resolve) => {
-            return resolve({
-              imageInitials: emoji,
-              initialsColor: getBackgroundColor(emoji)?.backgroundColor
-            });
-          })
-      );
     return (
       <Stack className={chatScreenContainerStyle}>
         <Stack.Item className={chatCompositeContainerStyle}>
@@ -90,7 +79,6 @@ export const ChatScreen = (props: ChatScreenProps): JSX.Element => {
             adapter={adapter}
             fluentTheme={currentTheme.theme}
             options={{ topic: false }}
-            onFetchAvatarPersonaData={onFetchAvatarPersonaData}
           />
         </Stack.Item>
         <ChatHeader

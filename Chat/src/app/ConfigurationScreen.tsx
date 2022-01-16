@@ -12,21 +12,15 @@ import {
   mainContainerStyle
 } from './styles/ConfigurationScreen.styles';
 import {
-  avatarListContainerStackTokens,
-  avatarListContainerStyle,
   headerStyle,
   labelFontStyle,
-  largeAvatarContainerStyle,
-  largeAvatarStyle,
   leftPreviewContainerStackTokens,
   leftPreviewContainerStyle,
   namePreviewStyle,
   responsiveLayoutStackTokens,
   responsiveLayoutStyle,
   rightInputContainerStackTokens,
-  rightInputContainerStyle,
-  smallAvatarContainerStyle,
-  smallAvatarStyle
+  rightInputContainerStyle
 } from './styles/ConfigurationScreen.styles';
 
 import { Chat20Filled } from '@fluentui/react-icons';
@@ -55,7 +49,6 @@ const CONFIGURATIONSCREEN_SHOWING_INVALID_THREAD = 3;
 const CONFIGURATIONSCREEN_SHOWING_SPINNER_INITIALIZE_CHAT = 4;
 
 const ALERT_TEXT_TRY_AGAIN = "You can't be added at this moment. Please wait at least 60 seconds to try again.";
-const AVATAR_LABEL = 'Avatar';
 const ERROR_TEXT_THREAD_INVALID = 'Thread Id is not valid, please revisit home page to create a new thread';
 const ERROR_TEXT_THREAD_NOT_RECORDED = 'Thread id is not recorded in server';
 const ERROR_TEXT_THREAD_NULL = 'Thread id is null';
@@ -75,15 +68,12 @@ const PROFILE_LABEL = 'Your profile';
  * @param props
  */
 export default (props: ConfigurationScreenProps): JSX.Element => {
-  const avatarsList = [CAT, MOUSE, KOALA, OCTOPUS, MONKEY, FOX];
   const [name, setName] = useState('');
   const [emptyWarning, setEmptyWarning] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState(CAT);
   const [configurationScreenState, setConfigurationScreenState] = useState<number>(
     CONFIGURATIONSCREEN_SHOWING_SPINNER_LOADING
   );
   const [disableJoinChatButton, setDisableJoinChatButton] = useState<boolean>(false);
-  const theme = useTheme();
   const { joinChatHandler, setToken, setUserId, setDisplayName, setThreadId, setEndpointUrl } = props;
 
   // Used when new user is being registered.
@@ -103,8 +93,6 @@ export default (props: ConfigurationScreenProps): JSX.Element => {
       setThreadId(threadId);
       setEndpointUrl(endpointUrl);
 
-      await sendEmojiRequest(selectedAvatar);
-
       const result = await joinThread(threadId, token.identity, name);
       if (!result) {
         alert(ALERT_TEXT_TRY_AGAIN);
@@ -116,7 +104,7 @@ export default (props: ConfigurationScreenProps): JSX.Element => {
       joinChatHandler();
     };
     internalSetupAndJoinChatThread();
-  }, [name, joinChatHandler, selectedAvatar, setDisplayName, setEndpointUrl, setThreadId, setToken, setUserId]);
+  }, [name, joinChatHandler, setDisplayName, setEndpointUrl, setThreadId, setToken, setUserId]);
 
   useEffect(() => {
     if (configurationScreenState === CONFIGURATIONSCREEN_SHOWING_SPINNER_LOADING) {
@@ -136,13 +124,6 @@ export default (props: ConfigurationScreenProps): JSX.Element => {
     }
   }, [configurationScreenState]);
 
-  const smallAvatarContainerClassName = useCallback(
-    (avatar: string) => {
-      return smallAvatarContainerStyle(avatar, selectedAvatar, theme);
-    },
-    [selectedAvatar, theme]
-  );
-
   const validateName = (): void => {
     if (!name) {
       setEmptyWarning(true);
@@ -152,10 +133,6 @@ export default (props: ConfigurationScreenProps): JSX.Element => {
       setConfigurationScreenState(CONFIGURATIONSCREEN_SHOWING_SPINNER_INITIALIZE_CHAT);
       setupAndJoinChatThreadWithNewUser();
     }
-  };
-
-  const onAvatarChange = (newAvatar: string): void => {
-    setSelectedAvatar(newAvatar);
   };
 
   const displaySpinner = (spinnerLabel: string): JSX.Element => {
@@ -176,39 +153,9 @@ export default (props: ConfigurationScreenProps): JSX.Element => {
           <Text role={'heading'} aria-level={1} className={headerStyle}>
             {PROFILE_LABEL}
           </Text>
-          <div className={largeAvatarContainerStyle(selectedAvatar)}>
-            <div aria-label={`${selectedAvatar} avatar`} className={largeAvatarStyle}>
-              {selectedAvatar}
-            </div>
-          </div>
           <Text className={namePreviewStyle(name !== '')}>{name !== '' ? name : NAME_DEFAULT}</Text>
         </Stack>
         <Stack className={rightInputContainerStyle} tokens={rightInputContainerStackTokens}>
-          <Text id={'avatar-list-label'} className={labelFontStyle}>
-            {AVATAR_LABEL}
-          </Text>
-          <FocusZone direction={FocusZoneDirection.horizontal}>
-            <Stack
-              horizontal
-              className={avatarListContainerStyle}
-              tokens={avatarListContainerStackTokens}
-              role="list"
-              aria-labelledby={'avatar-list-label'}
-            >
-              {avatarsList.map((avatar, index) => (
-                <div
-                  role="listitem"
-                  id={avatar}
-                  key={index}
-                  data-is-focusable={true}
-                  className={smallAvatarContainerClassName(avatar)}
-                  onClick={() => onAvatarChange(avatar)}
-                >
-                  <div className={smallAvatarStyle}>{avatar}</div>
-                </div>
-              ))}
-            </Stack>
-          </FocusZone>
           <DisplayNameField
             setName={setName}
             setEmptyWarning={setEmptyWarning}

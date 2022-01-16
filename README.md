@@ -33,7 +33,7 @@ We appreciate your feedback and energy helping us improve our services. [Please 
 - ./Chat/src/app: Where the client code lives
 - ./Chat/src/app/App.tsx: Entry point into the chat sample 
 - ./Chat/src/app/HomeScreen.tsx: The first screen in the chat sample
-- ./Chat/src/app/ConfigurationScreen.tsx: Where to set your name and avatar for the chat
+- ./Chat/src/app/ConfigurationScreen.tsx: Where to set your name for the chat
 - ./Chat/src/app/ChatScreen.tsx: The main chat thread screen
 - ./Chat/src/app/EndScreen.tsx: The screen the user will see when they are no longer in the chat thread
 - ./Chat/src/app/ErrorScreen.tsx: The screen when an error occurs in the chat thread
