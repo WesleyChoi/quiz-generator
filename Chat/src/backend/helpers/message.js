@@ -1,46 +1,51 @@
-var twilioapi = require('../../public-keys/twilio-api');
-const accountSid = twilioapi.sid;
-const authToken = twilioapi.authToken;
+const keyPhraseExtraction = require('./keyPhrase');
+const parseText = require('./parseText');
 
-const client = require('twilio')(accountSid, authToken);
+function test() {
+    const express = require('express');
+    const bodyParser = require('body-parser');
+    const router = express.Router();
+    const app = express();
+    var twilioapi = require('../../public-keys/twilio-api');
+    const accountSid = twilioapi.sid;
+    const authToken = twilioapi.authToken;
 
-module.exports = {
-    sendMessage: function sendMessage(message) {
+    const client = require('twilio')(accountSid, authToken);
+
+    //Here we are configuring express to use body-parser as middle-ware.
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
+
+    const notes = 'I am at the mall with my friends today.';
+
+    function sendMessage(message) {
         client.messages
             .create({ from: twilioapi.phoneNumber, body: message, to: '+16048622741' })
             .then(message => console.log(message.sid));
-    },
+    }
+
+    async function getQuiz(rawText) {
+        let keywords = await keyPhraseExtraction(rawText);
+        let blankedOut = parseText.fillInWithBlank(rawText, keywords);
+        let questions = parseText.questionGenerator(blankedOut, keywords);
+        return questions;
+    }
+
+    let questions = getQuiz(notes);
+    let i = 0;
+    sendMessage(questions[i]);
+    i++;
 
 
+    app.post('/', (request, response) => {
 
+        console.log(response, request);
+    });
+
+    // add router in the Express app.
+    app.use('/', router);
+    app.listen(8080, () => {
+        console.log('Started on PORT 8080');
+    });
 }
-
-function test(context, event, callback) {
-    'use strict'
-
-    const express = require('express')
-    const bodyParser = require('body-parser')
-
-    // Create a new instance of express
-    const app = express()
-
-    // Tell express to use the body-parser middleware and to not parse extended bodies
-    app.use(bodyParser.urlencoded({ extended: false }))
-
-    // Route that receives a POST request to /sms
-    app.post('/sms', function (req, res) {
-        const body = req.body.Body
-        res.set('Content-Type', 'text/plain')
-        res.send(`You sent: ${body} to Express`)
-    })
-
-    // Tell our app to listen on port 3000
-    app.listen(8080, function (err) {
-        if (err) {
-            throw err
-        }
-
-        console.log('Server started on port 8080')
-    })
-};
-test()
+test();
