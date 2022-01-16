@@ -32,7 +32,8 @@
     "react-aria-live": "^2.0.5",
     "react-dom": "16.13.1",
     "react-linkify": "^1.0.0-alpha",
-    "reselect": "~4.0.0"
+    "reselect": "~4.0.0",
+    "twilio": "^3.73.0"
   },
   "devDependencies": {
     "@babel/core": "~7.16.0",
