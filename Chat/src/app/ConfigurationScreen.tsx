@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CAT, FOX, KOALA, MONKEY, MOUSE, OCTOPUS } from './utils/utils';
-import { useTheme } from '@azure/communication-react';
-import { FocusZone, FocusZoneDirection, PrimaryButton, Spinner, Stack, Text } from '@fluentui/react';
+import { PrimaryButton, Spinner, Stack, Text } from '@fluentui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   buttonStyle,
@@ -13,7 +11,6 @@ import {
 } from './styles/ConfigurationScreen.styles';
 import {
   headerStyle,
-  labelFontStyle,
   leftPreviewContainerStackTokens,
   leftPreviewContainerStyle,
   namePreviewStyle,
@@ -25,7 +22,6 @@ import {
 
 import { Chat20Filled } from '@fluentui/react-icons';
 import { DisplayNameField } from './DisplayNameField';
-import { sendEmojiRequest } from './utils/setEmoji';
 import { getToken } from './utils/getToken';
 import { getThreadId } from './utils/getThreadId';
 import { joinThread } from './utils/joinThread';

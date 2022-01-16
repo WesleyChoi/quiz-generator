@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getBackgroundColor } from '../utils/utils';
 import { IButtonStyles, IStackTokens, mergeStyles, Theme } from '@fluentui/react';
 
 export const headerStyle = mergeStyles({
